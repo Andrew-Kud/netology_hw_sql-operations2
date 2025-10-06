@@ -1,117 +1,96 @@
-# Домашнее задание к занятию "`Название занятия`" - `Фамилия и имя студента`
+# Домашнее задание к занятию "`SQL. Часть 2`" - `Кудряшов Андрей`
 
 
-### Инструкция по выполнению домашнего задания
-
-   1. Сделайте `fork` данного репозитория к себе в Github и переименуйте его по названию или номеру занятия, например, https://github.com/имя-вашего-репозитория/git-hw или  https://github.com/имя-вашего-репозитория/7-1-ansible-hw).
-   2. Выполните клонирование данного репозитория к себе на ПК с помощью команды `git clone`.
-   3. Выполните домашнее задание и заполните у себя локально этот файл README.md:
-      - впишите вверху название занятия и вашу фамилию и имя
-      - в каждом задании добавьте решение в требуемом виде (текст/код/скриншоты/ссылка)
-      - для корректного добавления скриншотов воспользуйтесь [инструкцией "Как вставить скриншот в шаблон с решением](https://github.com/netology-code/sys-pattern-homework/blob/main/screen-instruction.md)
-      - при оформлении используйте возможности языка разметки md (коротко об этом можно посмотреть в [инструкции  по MarkDown](https://github.com/netology-code/sys-pattern-homework/blob/main/md-instruction.md))
-   4. После завершения работы над домашним заданием сделайте коммит (`git commit -m "comment"`) и отправьте его на Github (`git push origin`);
-   5. Для проверки домашнего задания преподавателем в личном кабинете прикрепите и отправьте ссылку на решение в виде md-файла в вашем Github.
-   6. Любые вопросы по выполнению заданий спрашивайте в чате учебной группы и/или в разделе “Вопросы по заданию” в личном кабинете.
-   
-Желаем успехов в выполнении домашнего задания!
-   
-### Дополнительные материалы, которые могут быть полезны для выполнения задания
-
-1. [Руководство по оформлению Markdown файлов](https://gist.github.com/Jekins/2bf2d0638163f1294637#Code)
 
 ---
 
 ### Задание 1
 
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+sudo mysql -u root
+USE sakila;
 ```
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота 1](ссылка на скриншот 1)`
+```
+SELECT 
+CONCAT(staff.first_name, ' ', staff.last_name) AS manager,
+city.city AS city_name,
+COUNT(customer.customer_id) AS total_customers
+FROM store
+JOIN staff ON store.manager_staff_id = staff.staff_id
+JOIN address ON store.address_id = address.address_id
+JOIN city ON address.city_id = city.city_id
+JOIN customer ON store.store_id = customer.store_id
+-- JOIN customer ON customer.store_id = store.store_id  -- закомментил, потому что уже есть
+GROUP BY store.store_id, staff.first_name, staff.last_name, city.city
+HAVING COUNT(customer.customer_id) > 300;
+```
+
+<img width="643" height="337" alt="1" src="https://github.com/user-attachments/assets/cd5722d5-4c21-4a63-a988-ec4d569ac648" />
 
 
 ---
 
 ### Задание 2
 
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+SELECT COUNT(film_id) 
+FROM film 
+WHERE length > (SELECT AVG(length) FROM film);
 ```
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота 2](ссылка на скриншот 2)`
-
+<img width="558" height="199" alt="2" src="https://github.com/user-attachments/assets/7063daea-0431-44fa-abcb-8c31acd248c5" />
 
 ---
 
 ### Задание 3
 
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+SELECT 
+DATE_FORMAT(payment.payment_date, '%Y-%m') as pay_month,
+SUM(payment.amount) as total,
+COUNT(rental.rental_id) as rent_count
+FROM payment
+JOIN rental ON payment.rental_id = rental.rental_id
+GROUP BY pay_month
+ORDER BY total DESC
+LIMIT 1;
 ```
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
+<img width="531" height="306" alt="3" src="https://github.com/user-attachments/assets/281de18c-a2ec-40c9-a830-dd6cd05111c7" />
+
+
+---
+
 
 ### Задание 4
 
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+SELECT 
+CONCAT(staff.first_name, ' ', staff.last_name) as staff_full,
+COUNT(payment.payment_id) as num_sales,
+IF(COUNT(payment.payment_id) > 8000, 'Да', 'Нет') as Преммя
+FROM staff
+JOIN payment ON staff.staff_id = payment.staff_id
+GROUP BY staff.staff_id, staff.first_name, staff.last_name;
 ```
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
+<img width="604" height="292" alt="4" src="https://github.com/user-attachments/assets/3215cc58-498e-46f4-93b4-5d68810e3a4e" />
+
+
+---
+
+
+### Задание 5
+
+```
+SELECT film.film_id, film.title
+FROM film
+LEFT JOIN inventory ON film.film_id = inventory.film_id
+LEFT JOIN rental ON inventory.inventory_id = rental.inventory_id
+WHERE rental.rental_id IS NULL;
+```
+
+<img width="717" height="952" alt="5" src="https://github.com/user-attachments/assets/85b798a9-ad35-42cb-aca4-3a291f85a182" />
+
+---
